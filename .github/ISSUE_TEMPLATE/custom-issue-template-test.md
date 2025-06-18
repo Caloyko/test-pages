@@ -7,67 +7,95 @@ assignees: ''
 
 ---
 
-name: Bug Report
-description: File a bug report.
-title: "[Bug]: "
-labels: ["bug", "triage"]
-projects: ["octo-org/1", "octo-org/44"]
-assignees:
-  - octocat
+name: Add a new SPARQL query
+description: Submit a new SPARQL query with context, hints, and metadata
+title: "[Query] "
+labels: [query, enhancement]
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for taking the time to fill out this bug report!
   - type: input
-    id: contact
+    id: query-name
     attributes:
-      label: Contact Details
-      description: How can we get in touch with you if we need more info?
-      placeholder: ex. email@example.com
+      label: Query Name
+      description: A short, descriptive title (3–8 words)
+      placeholder: e.g. Find diseases with genetic causes
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What does this query do?
+      description: Describe the purpose of the query in a few lines.
+      placeholder: |
+        This query retrieves all diseases annotated with genetic causes from the Orphanet dataset.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: difficulty
+    attributes:
+      label: Difficulty
+      description: How hard is it to write or understand this query?
+      options:
+        - Beginner
+        - Intermediate
+        - Advanced
     validations:
       required: false
-  - type: textarea
-    id: what-happened
+
+  - type: dropdown
+    id: ontology
     attributes:
-      label: What happened?
-      description: Also tell us, what did you expect to happen?
-      placeholder: Tell us what you see!
-      value: "A bug happened!"
+      label: Ontology used
+      description: Which ontology or dataset does this query rely on?
+      options:
+        - Orphanet
+        - HOOM
+        - FERDO
+        - Other
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context (optional)
+      description: Why and where is this query useful? Project, data source, etc.
+      placeholder: |
+        Used in the FERDO project to analyze mappings between genetic annotations.
+
+  - type: textarea
+    id: hints
+    attributes:
+      label: Hints or Steps (optional)
+      description: List optional hints or steps to solve the query (1 per line)
+      placeholder: |
+        - Use the `rdfs:subClassOf` hierarchy
+        - Filter by `obo:GENO_0000000` type
+
+  - type: textarea
+    id: sparql
+    attributes:
+      label: SPARQL Query (with PREFIX)
+      description: Paste the full SPARQL query with all necessary PREFIX declarations.
+      placeholder: |
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        PREFIX obo: <http://purl.obolibrary.org/obo/>
+
+        SELECT ?disease ?label
+        WHERE {
+          ?disease a obo:ORDO_0000000 ;
+                   rdfs:label ?label .
+        }
     validations:
       required: true
-  - type: dropdown
-    id: version
-    attributes:
-      label: Version
-      description: What version of our software are you running?
-      options:
-        - 1.0.2 (Default)
-        - 1.0.3 (Edge)
-      default: 0
-    validations:
-      required: true
-  - type: dropdown
-    id: browsers
-    attributes:
-      label: What browsers are you seeing the problem on?
-      multiple: true
-      options:
-        - Firefox
-        - Chrome
-        - Safari
-        - Microsoft Edge
+
   - type: textarea
-    id: logs
+    id: rdf-result
     attributes:
-      label: Relevant log output
-      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
-      render: shell
-  - type: checkboxes
-    id: terms
-    attributes:
-      label: Code of Conduct
-      description: By submitting this issue, you agree to follow our [Code of Conduct](https://example.com). 
-      options:
-        - label: I agree to follow this project's Code of Conduct
-          required: true
+      label: Sample RDF Result (optional)
+      description: Provide a small example of expected RDF output (Turtle, RDF/XML or JSON-LD).
+      placeholder: |
+        @prefix obo: <http://purl.obolibrary.org/obo/> .
+        obo:ORDO_123456 a obo:ORDO_0000000 ;
+          rdfs:label "Example disease" .
