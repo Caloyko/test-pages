@@ -4,15 +4,8 @@ about: Describe this issue template's purpose here.
 title: ''
 labels: ''
 assignees: ''
-
----
-
-name: Add a new SPARQL query
-description: Submit a new SPARQL query with context, hints, and metadata
-title: "[Query] "
-labels: [query, enhancement]
 body:
-  - type: input
+  - type: markdown
     id: query-name
     attributes:
       label: Query Name
